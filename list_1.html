@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>求人一覧 | 教育転職ドットコム</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --navy: #1a2744; --accent: #c8a96e; --accent-light: #e8d5a8; --bg: #f7f5f0; --white: #ffffff; --text: #2c2c2c; --text-muted: #6b6b6b; --border: #e0dbd0; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  .header { background: var(--navy); color: white; padding: 48px 24px; position: relative; overflow: hidden; }
+  .header::before { content: '教'; position: absolute; right: -10px; top: -40px; font-family: 'Noto Serif JP', serif; font-size: 260px; color: rgba(255,255,255,0.04); line-height: 1; pointer-events: none; }
+  .header-inner { max-width: 800px; margin: 0 auto; position: relative; }
+  .header-label { font-size: 12px; color: var(--accent-light); letter-spacing: 0.12em; margin-bottom: 12px; }
+  .header-title { font-family: 'Noto Serif JP', serif; font-size: clamp(22px, 4vw, 32px); font-weight: 600; margin-bottom: 8px; }
+  .header-sub { font-size: 14px; color: rgba(255,255,255,0.6); }
+  .main { max-width: 800px; margin: 0 auto; padding: 32px 24px 64px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+  .filter-btn { font-size: 12px; padding: 5px 16px; border: 1px solid var(--border); border-radius: 999px; background: var(--white); color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+  .filter-btn:hover, .filter-btn.active { background: var(--navy); color: white; border-color: var(--navy); }
+  .count { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+  .job-card { background: var(--white); border: 1px solid var(--border); border-radius: 6px; padding: 20px 24px; margin-bottom: 12px; text-decoration: none; color: inherit; display: block; transition: border-color 0.15s, transform 0.1s; }
+  .job-card:hover { border-color: var(--navy); transform: translateY(-1px); }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 12px; }
+  .job-title { font-size: 15px; font-weight: 500; color: var(--navy); margin-bottom: 3px; line-height: 1.4; }
+  .job-org { font-size: 13px; color: var(--text-muted); }
+  .badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+  .badge-open { background: #e8f0e8; color: #2d5a2d; }
+  .badge-soon { background: #fff3e0; color: #8a5a00; }
+  .card-meta { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+  .salary { font-size: 14px; font-weight: 500; color: var(--navy); }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 11px; padding: 3px 10px; border: 1px solid var(--border); border-radius: 3px; color: var(--text-muted); background: var(--bg); }
+  footer { text-align: center; padding: 32px 24px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border); }
+  @media(max-width:600px){ .card-top { flex-direction: column; } .card-meta { gap: 10px; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-label">KYOIKU TENSYOKU .COM</div>
+    <div class="header-title">教育転職ドットコム　求人一覧</div>
+    <div class="header-sub">教育・学習業界の求人情報をご紹介します</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterJobs('all', this)">すべて（17件）</button>
+    <button class="filter-btn" onclick="filterJobs('tokyo', this)">東京</button>
+    <button class="filter-btn" onclick="filterJobs('osaka', this)">大阪・関西</button>
+    <button class="filter-btn" onclick="filterJobs('remote', this)">リモート可</button>
+    <button class="filter-btn" onclick="filterJobs('sales', this)">営業職</button>
+    <button class="filter-btn" onclick="filterJobs('teacher', this)">講師・指導員</button>
+    <button class="filter-btn" onclick="filterJobs('management', this)">管理・マネジメント</button>
+  </div>
+
+  <div class="count" id="count">17件の求人が見つかりました</div>
+
+  <div id="job-list">
+
+    <a class="job-card" href="index.html" data-tags="tokyo teacher">
+      <div class="card-top">
+        <div><div class="job-title">検定問題編集者（問題作成・校閲・採点）</div><div class="job-org">公益財団法人 日本数学検定協会</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 東京都台東区</span><span>🕐 9:00〜17:30</span><span class="salary">月収 21〜30万円</span></div>
+      <div class="card-tags"><span class="tag">正職員</span><span class="tag">未経験歓迎</span><span class="tag">週休2日</span></div>
+    </a>
+
+    <a class="job-card" href="job_sms.html" data-tags="tokyo sales">
+      <div class="card-top">
+        <div><div class="job-title">キャリアパートナー（医療・介護・福祉分野）</div><div class="job-org">株式会社エス・エム・エス</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 関東圏各事業所</span><span>🕐 9:30〜18:30</span><span class="salary">月収 24.8万円〜</span></div>
+      <div class="card-tags"><span class="tag">正社員</span><span class="tag">第二新卒歓迎</span><span class="tag">土日休み</span></div>
+    </a>
+
+    <a class="job-card" href="job_progrit.html" data-tags="tokyo teacher">
+      <div class="card-top">
+        <div><div class="job-title">英語コンサルタント</div><div class="job-org">株式会社プログリット</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 関東・関西・名古屋</span><span>🕐 平日12:30〜21:30</span><span class="salary">月給 32.2万円〜</span></div>
+      <div class="card-tags"><span class="tag">正社員</span><span class="tag">英語力活かせる</span><span class="tag">未経験歓迎</span></div>
+    </a>
+
+    <a class="job-card" href="job_sinewave.html" data-tags="tokyo sales remote">
+      <div class="card-top">
+        <div><div class="job-title">英語学習サービスの法人営業</div><div class="job-org">株式会社サインウェーブ</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 東京・仙台・広島</span><span>🕐 10:00〜19:00</span><span class="salary">月給 35〜70万円</span></div>
+      <div class="card-tags"><span class="tag">正社員</span><span class="tag">週2〜3日リモート可</span><span class="tag">業種未経験歓迎</span></div>
+    </a>
+
+    <a class="job-card" href="job_east.html" data-tags="tokyo sales remote">
+      <div class="card-top">
+        <div><div class="job-title">ICT教材の学校営業職（辞書アプリ・英語学習アプリ）</div><div class="job-org">イースト株式会社</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 東京都渋谷区代々木</span><span>🕐 9:00〜17:45</span><span class="salary">年収 400〜550万円</span></div>
+      <div class="card-tags"><span class="tag">正社員</span><span class="tag">週半分リモート可</span><span class="tag">フレックス</span></div>
+    </a>
+
+    <a class="job-card" href="job_alldifferent.html" data-tags="tokyo sales management">
+      <div class="card-top">
+        <div><div class="job-title">組織開発・人材育成コンサルタント</div><div class="job-org">ALL DIFFERENT株式会社</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 東京・大阪・名古屋</span><span>🕐 8:30〜17:30</span><span class="salary">年収 450〜780万円</span></div>
+      <div class="card-tags"><span class="tag">正社員</span><span class="tag">採用5名</span><span class="tag">年休133日</span></div>
+    </a>
+
+    <a class="job-card" href="job_bizup.html" data-tags="tokyo teacher management">
+      <div class="card-top">
+        <div><div class="job-title">企業研修・ビジネスセミナー 講師</div><div class="job-org">株式会社ビズアップ総研</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 東京都港区東新橋</span><span>🕐 9:00〜18:00</span><span class="salary">月給 40万円〜</span></div>
+      <div class="card-tags"><span class="tag">正社員</span><span class="tag">年収600〜700万円</span><span class="tag">退職金あり</span></div>
+    </a>
+
+    <a class="job-card" href="job_litalico.html" data-tags="tokyo teacher">
+      <div class="card-top">
+        <div><div class="job-title">LITALICOジュニア 指導員（スタンダードコース）</div><div class="job-org">株式会社LITALICO</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 関東・東北・東海・関西・九州</span><span class="salary">月給 25.3〜34.4万円</span></div>
+      <div class="card-tags"><span class="tag">正社員</span><span class="tag">資格・経験者優遇</span><span class="tag">育休取得実績あり</span></div>
+    </a>
+
+    <a class="job-card" href="job_lii.html" data-tags="tokyo teacher">
+      <div class="card-top">
+        <div><div class="job-title">児童指導員（関東・中途）</div><div class="job-org">株式会社リィ</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 関東各スタジオ</span><span>🕐 平日10:00〜18:00</span><span class="salary">月給 23.3〜41.6万円</span></div>
+      <div class="card-tags"><span class="tag">正社員</span><span class="tag">残業なし</span><span class="tag">送迎なし</span></div>
+    </a>
+
+    <a class="job-card" href="job_yuhigaoka.html" data-tags="osaka management">
+      <div class="card-top">
+        <div><div class="job-title">教務事務（課長候補）</div><div class="job-org">学校法人夕陽丘学院</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 大阪市天王寺区</span><span>🕐 8:30〜17:00</span><span class="salary">年収 500〜600万円</span></div>
+      <div class="card-tags"><span class="tag">正職員</span><span class="tag">管理職候補</span><span class="tag">転勤なし</span></div>
+    </a>
+
+    <a class="job-card" href="job_clueit.html" data-tags="tokyo management teacher">
+      <div class="card-top">
+        <div><div class="job-title">武田塾事業部 スクールマネージャー（関東エリア）</div><div class="job-org">株式会社クルイト</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 埼玉・千葉・東京・神奈川</span><span>🕐 13:00〜22:00</span><span class="salary">年収 400〜600万円</span></div>
+      <div class="card-tags"><span class="tag">正社員</span><span class="tag">教育経験者優遇</span><span class="tag">ベンチャー</span></div>
+    </a>
+
+    <a class="job-card" href="job_tkg_benesse.html" data-tags="tokyo teacher">
+      <div class="card-top">
+        <div><div class="job-title">Benesseサイエンス教室 教室長</div><div class="job-org">株式会社東京個別指導学院</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 東京都・神奈川県</span><span>🕐 10:00〜18:00</span><span class="salary">賞与年2回</span></div>
+      <div class="card-tags"><span class="tag">正社員・契約社員</span><span class="tag">ベネッセグループ</span><span class="tag">理系歓迎</span></div>
+    </a>
+
+    <a class="job-card" href="job_tkg_management.html" data-tags="tokyo osaka management">
+      <div class="card-top">
+        <div><div class="job-title">教室マネジメント職（個別指導部門）</div><div class="job-org">株式会社東京個別指導学院</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 東京・神奈川・埼玉・千葉・愛知・福岡ほか</span><span class="salary">月給 24〜37万円</span></div>
+      <div class="card-tags"><span class="tag">正社員</span><span class="tag">業界未経験歓迎</span><span class="tag">第二新卒歓迎</span></div>
+    </a>
+
+    <a class="job-card" href="job_seigakusha.html" data-tags="osaka teacher">
+      <div class="card-top">
+        <div><div class="job-title">集団指導講師職（関西エリア）</div><div class="job-org">株式会社成学社</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 大阪・京都・兵庫・滋賀</span><span>🕐 13:30〜22:30</span><span class="salary">月給 24.4〜32.4万円</span></div>
+      <div class="card-tags"><span class="tag">正社員</span><span class="tag">土日連休可</span><span class="tag">退職金あり</span></div>
+    </a>
+
+    <a class="job-card" href="job_humallage.html" data-tags="osaka teacher">
+      <div class="card-top">
+        <div><div class="job-title">講師職（木村塾）</div><div class="job-org">株式会社ヒューマレッジ</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 兵庫県・大阪府</span><span>🕐 13:30〜22:30</span><span class="salary">月給 30万円〜</span></div>
+      <div class="card-tags"><span class="tag">正社員</span><span class="tag">営業ノルマなし</span><span class="tag">35年連続増収</span></div>
+    </a>
+
+    <a class="job-card" href="job_inspirehigh.html" data-tags="tokyo sales remote">
+      <div class="card-top">
+        <div><div class="job-title">コンサルティング営業 リーダー・メンバー（関東）</div><div class="job-org">株式会社Inspire High</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 神奈川・埼玉・千葉（リモート中心）</span><span class="salary">年収 450〜800万円</span></div>
+      <div class="card-tags"><span class="tag">正社員</span><span class="tag">リモート中心</span><span class="tag">2026年4月入社</span></div>
+    </a>
+
+    <a class="job-card" href="job_tomonokai.html" data-tags="tokyo remote management">
+      <div class="card-top">
+        <div><div class="job-title">海外子女向け中学受験サポート プロダクト開発（リーダー候補）</div><div class="job-org">株式会社トモノカイ</div></div>
+        <span class="badge badge-open">募集中</span>
+      </div>
+      <div class="card-meta"><span>📍 東京都新宿区四谷（リモート60%）</span><span class="salary">月給 36〜42万円</span></div>
+      <div class="card-tags"><span class="tag">正社員</span><span class="tag">在宅勤務可</span><span class="tag">転勤なし</span></div>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  <p style="margin-bottom:8px;">※求人情報は、充足情報などにより変更になることがあります。<br>最新情報は弊社アドバイザーにご確認ください。</p>
+  © 教育転職ドットコム. All rights reserved.
+</footer>
+
+<script>
+function filterJobs(tag, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const cards = document.querySelectorAll('.job-card');
+  let count = 0;
+  cards.forEach(card => {
+    const tags = card.getAttribute('data-tags') || '';
+    const show = tag === 'all' || tags.includes(tag);
+    card.style.display = show ? 'block' : 'none';
+    if (show) count++;
+  });
+  document.getElementById('count').textContent = count + '件の求人が見つかりました';
+}
+</script>
+</body>
+</html>
